@@ -17,13 +17,8 @@ variable "origin" {
 }
 
 variable "headers" {
-  description = "List of permitted headers. Default headers are alway present unless discard_default_headers variable is set to true"
+  description = "List of permitted headers. If overriding this, you must explicitly include any of the default headers that you still require."
   default     = ["Content-Type", "X-Amz-Date", "Authorization", "X-Api-Key", "X-Amz-Security-Token"]
-}
-
-variable "discard_default_headers" {
-  default     = false
-  description = "When set to true to it discards the default permitted headers and only includes those explicitly defined"
 }
 
 locals {
@@ -31,6 +26,6 @@ locals {
   defaultHeaders = ["Content-Type", "X-Amz-Date", "Authorization", "X-Api-Key", "X-Amz-Security-Token"]
 
   methods = join(",", distinct(concat(var.methods, [local.methodOptions])))
-  headers = var.discard_default_headers ? join(",", var.headers) : join(",", distinct(concat(var.headers, local.defaultHeaders)))
+  headers = join(",", distinct(var.headers))
 }
 

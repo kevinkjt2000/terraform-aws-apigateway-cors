@@ -8,51 +8,14 @@ An example module usage, which allows `GET` and `POST` methods from any origin (
 
 ```
 module "example_cors" {
-  source  = "mewa/apigateway-cors/aws"
-  version = "1.0.0"
+  source  = "github.com/kevinkjt2000/terraform-aws-apigateway-cors"
+  version = "3.0.0"
 
-  api = "${aws_api_gateway_rest_api.example.id}"
-  resource = "${aws_api_gateway_resource.example.id}"
+  api = aws_api_gateway_rest_api.example.id
+  resource = aws_api_gateway_resource.example.id
 
   methods = ["GET", "POST"]
 }
 ```
 
-### Restrict origin
-
-If you want to customize the allowed origin simply set the `origin` variable to your desired value:
-
-```
-module "confirm_cors" {
-  source  = "mewa/apigateway-cors/aws"
-  version = "1.0.0"
-
-  api = "${aws_api_gateway_rest_api.example.id}"
-  resource = "${aws_api_gateway_resource.example.id}"
-
-  methods = ["${aws_api_gateway_method.method01.http_method}", "${aws_api_gateway_method.method02.http_method}"]
-
-  origin = "https://example.com"
-}
-```
-
-
-### Custom headers
-You can also add other permitted headers, which will be appended to the default headers:
-
-```
-module "confirm_cors" {
-  source  = "mewa/apigateway-cors/aws"
-  version = "1.0.0"
-
-  api = "${aws_api_gateway_rest_api.example.id}"
-  resource = "${aws_api_gateway_resource.example.id}"
-
-  methods = ["GET"]
-
-  origin = "https://example.com"
-  headers = "X-Custom-Header"
-}
-```
-
-Setting `discard_default_headers` variable to true will result in including only the headers defined in `headers` variable.
+See variables.tf for other options, such as providing your own list of headers or a custom origin.
